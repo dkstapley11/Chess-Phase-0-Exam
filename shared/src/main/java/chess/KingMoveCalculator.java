@@ -10,9 +10,16 @@ public class KingMoveCalculator implements ChessPieceMoveCalculator {
         Collection<ChessMove> moves = new ArrayList<>();
         ChessGame.TeamColor color = board.getPiece(position).getTeamColor();
 
+        int row = position.getRow();
+        int col = position.getColumn();
+
         int [][] potentialMoves = {{1,1}, {1,0}, {1,-1}, {0,1}, {0,-1}, {-1,1}, {-1,0}, {-1,-1}};
 
-
+        for (int[] move : potentialMoves) {
+            if (validateMove(board, position, move, color)) {
+                moves.add(new ChessMove(position, new ChessPosition(row + move[0], col + move[1]), null));
+            }
+        }
 
         return moves;
     }
@@ -23,10 +30,15 @@ public class KingMoveCalculator implements ChessPieceMoveCalculator {
         if (outOfBounds(targetRow, targetCol)) {
             return false;
         }
-        // if enemy
-        if (!squareEmpty(board, position) && board.getPiece(new ChessPosition(targetRow, targetCol)).getTeamColor() != color) {
-
+        ChessPosition target = new ChessPosition(targetRow, targetCol);
+        if (squareEmpty(board, target)) {
+            return true;
         }
+        // if enemy
+        if (!squareEmpty(board, target) && board.getPiece(target).getTeamColor() != color) {
+            return true;
+        }
+        // can only mean friendly piece
         return false;
     }
 
