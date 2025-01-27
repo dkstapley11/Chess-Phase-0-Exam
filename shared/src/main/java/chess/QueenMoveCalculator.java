@@ -46,11 +46,11 @@ public class QueenMoveCalculator implements ChessPieceMoveCalculator {
     }
 
     public boolean outOfBounds(int row, int col) {
-        if (row > 8) return false;
-        if (col > 8) return false;
-        if (row < 1) return false;
-        if (col < 1) return false;
-        return true;
+        if (row > 8) return true;
+        if (col > 8) return true;
+        if (row < 1) return true;
+        if (col < 1) return true;
+        return false;
     }
 
     public boolean squareEmpty(ChessBoard board, ChessPosition position) {
